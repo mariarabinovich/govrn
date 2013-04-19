@@ -2,7 +2,13 @@ class QuestionsController < ApplicationController
   # GET /questions
   # GET /questions.json
   def index
-    @questions = Question.all
+    @questions = Question
+
+    if params[:after_id]
+      @questions = @questions.where('id > ?', params[:after_id])
+    end
+
+    @questions = @questions.all
 
     respond_to do |format|
       format.html # index.html.erb
